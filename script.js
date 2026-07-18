@@ -1,3 +1,5 @@
+const assetVersion = "20260718-2";
+
 const photos = [
   "photo-01.jpg",
   "photo-02.jpg",
@@ -41,8 +43,8 @@ function renderGallery() {
         >
           <span class="gallery-card-index">${displayIndex}</span>
           <img
-            src="assets/images/thumb/${photo}"
-            data-full="assets/images/full/${photo}"
+            src="assets/images/thumb/${photo}?v=${assetVersion}"
+            data-full="assets/images/full/${photo}?v=${assetVersion}"
             alt="Barcelona travel photo ${displayIndex}"
             loading="lazy"
             decoding="async"
@@ -59,7 +61,7 @@ function updateLightbox(index) {
   activeIndex = (index + photos.length) % photos.length;
   const displayIndex = String(activeIndex + 1).padStart(2, "0");
   const photo = photos[activeIndex];
-  lightboxImage.src = `assets/images/full/${photo}`;
+  lightboxImage.src = `assets/images/full/${photo}?v=${assetVersion}`;
   lightboxImage.alt = `Barcelona travel photo ${displayIndex}`;
   lightboxCaption.textContent = `Barcelona 2026 · ${displayIndex} / ${String(
     photos.length
