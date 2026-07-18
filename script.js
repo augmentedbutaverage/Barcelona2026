@@ -1,6 +1,4 @@
-const assetVersion = "20260718-3";
-const placeholderImage =
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+const assetVersion = "20260718-4";
 
 const photos = [
   { file: "photo-01.jpg", width: 640, height: 540 },
@@ -36,7 +34,6 @@ function renderGallery() {
     .map((photo, index) => {
       const displayIndex = String(index + 1).padStart(2, "0");
       const imagePath = `assets/images/thumb/${photo.file}?v=${assetVersion}`;
-      const fullPath = `assets/images/full/${photo.file}?v=${assetVersion}`;
       return `
         <button
           class="gallery-card"
@@ -47,11 +44,11 @@ function renderGallery() {
         >
           <span class="gallery-card-index">${displayIndex}</span>
           <img
-            src="${placeholderImage}"
-            data-src="${imagePath}"
-            data-full="${fullPath}"
+            src="${imagePath}"
             alt="Barcelona travel photo ${displayIndex}"
             decoding="async"
+            loading="eager"
+            fetchpriority="${index < 8 ? "high" : "auto"}"
             width="${photo.width}"
             height="${photo.height}"
           />
@@ -61,43 +58,6 @@ function renderGallery() {
     .join("");
 
   gallery.innerHTML = markup;
-  hydrateGalleryImages();
-}
-
-function hydrateGalleryImages() {
-  const images = gallery.querySelectorAll("img[data-src]");
-
-  const revealImage = (image) => {
-    if (!image.dataset.src) {
-      return;
-    }
-
-    image.src = image.dataset.src;
-    image.removeAttribute("data-src");
-  };
-
-  if (!("IntersectionObserver" in window)) {
-    images.forEach(revealImage);
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        revealImage(entry.target);
-        observer.unobserve(entry.target);
-      });
-    },
-    {
-      rootMargin: "240px 0px",
-    }
-  );
-
-  images.forEach((image) => observer.observe(image));
 }
 
 function updateLightbox(index) {
