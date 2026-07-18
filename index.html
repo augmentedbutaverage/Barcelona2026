@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A polished Barcelona 2026 travel gallery with fullscreen viewing."
+    />
+    <title>Barcelona 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-left"></div>
+      <div class="ambient ambient-right"></div>
+
+      <header class="hero">
+        <p class="eyebrow">Travel Diary</p>
+        <h1>Barcelona 2026</h1>
+        <p class="hero-copy">
+          Seventeen sun-soaked frames, tuned into a clean little love letter to
+          the city.
+        </p>
+        <div class="hero-meta">
+          <span>17 photos</span>
+          <span>Mobile-first</span>
+          <span>Fullscreen lightbox</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="gallery-section" aria-label="Photo gallery">
+          <div class="gallery-header">
+            <div>
+              <p class="section-label">Gallery</p>
+              <h2>Street light, sea air, and a very unfair amount of charm</h2>
+            </div>
+            <p class="gallery-note">
+              Tap any frame to open it full screen. Use arrow keys on desktop.
+            </p>
+          </div>
+          <div class="gallery-grid" id="gallery"></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+      <form method="dialog" class="lightbox-chrome">
+        <button class="icon-button close-button" aria-label="Close viewer">
+          <span aria-hidden="true">×</span>
+        </button>
+      </form>
+
+      <button class="nav-button nav-prev" id="prevButton" aria-label="Previous image">
+        <span aria-hidden="true">‹</span>
+      </button>
+
+      <figure class="lightbox-figure">
+        <img id="lightboxImage" alt="" />
+        <figcaption id="lightboxCaption"></figcaption>
+      </figure>
+
+      <button class="nav-button nav-next" id="nextButton" aria-label="Next image">
+        <span aria-hidden="true">›</span>
+      </button>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
