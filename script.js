@@ -1,4 +1,4 @@
-const assetVersion = "20260718-4";
+const assetVersion = "20260718-5";
 
 const photos = [
   { file: "photo-01.jpg", width: 640, height: 540 },
@@ -48,7 +48,7 @@ function renderGallery() {
             alt="Barcelona travel photo ${displayIndex}"
             decoding="async"
             loading="eager"
-            fetchpriority="${index < 8 ? "high" : "auto"}"
+            fetchpriority="high"
             width="${photo.width}"
             height="${photo.height}"
           />
