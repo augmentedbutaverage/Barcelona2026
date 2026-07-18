@@ -1,4 +1,4 @@
-const assetVersion = "20260718-5";
+const assetVersion = "20260718-6";
 
 const photos = [
   { file: "photo-01.jpg", width: 640, height: 540 },

@@ -1,14 +1,14 @@
 :root {
-  --bg: #f6efe3;
-  --bg-deep: #e7d4b6;
-  --panel: rgba(255, 250, 242, 0.78);
-  --panel-strong: rgba(255, 248, 238, 0.92);
-  --line: rgba(107, 67, 34, 0.14);
-  --text: #2e2218;
-  --muted: rgba(46, 34, 24, 0.72);
-  --accent: #bf5a36;
-  --accent-soft: #e6a15d;
-  --shadow: 0 22px 50px rgba(85, 48, 21, 0.14);
+  --bg: #07111f;
+  --bg-deep: #10243d;
+  --panel: rgba(10, 22, 40, 0.76);
+  --panel-strong: rgba(14, 29, 52, 0.92);
+  --line: rgba(173, 218, 255, 0.16);
+  --text: #f2f5f7;
+  --muted: rgba(242, 245, 247, 0.72);
+  --accent: #77d5ff;
+  --accent-soft: #9bdcff;
+  --shadow: 0 24px 60px rgba(1, 8, 18, 0.34);
 }
 
 * {
@@ -16,7 +16,7 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
@@ -25,9 +25,9 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(255, 214, 153, 0.55), transparent 28%),
-    radial-gradient(circle at 88% 10%, rgba(204, 112, 65, 0.18), transparent 20%),
-    linear-gradient(180deg, #fbf5ea 0%, #f3e7d3 46%, #eedbc4 100%);
+    radial-gradient(circle at top left, rgba(53, 118, 185, 0.42), transparent 30%),
+    radial-gradient(circle at 88% 10%, rgba(94, 180, 255, 0.24), transparent 18%),
+    linear-gradient(160deg, #040b14 0%, #0d1f34 46%, #07111f 100%);
 }
 
 button,
@@ -58,14 +58,14 @@ img {
   inset: 64px auto auto -80px;
   width: 240px;
   height: 240px;
-  background: radial-gradient(circle, rgba(255, 204, 126, 0.5), transparent 70%);
+  background: radial-gradient(circle, rgba(119, 213, 255, 0.42), transparent 72%);
 }
 
 .ambient-right {
   inset: 340px -90px auto auto;
   width: 280px;
   height: 280px;
-  background: radial-gradient(circle, rgba(201, 104, 61, 0.24), transparent 72%);
+  background: radial-gradient(circle, rgba(67, 140, 204, 0.28), transparent 72%);
 }
 
 .hero,
@@ -120,12 +120,12 @@ img {
 
 .hero-meta span {
   padding: 10px 14px;
-  border: 1px solid rgba(107, 67, 34, 0.12);
+  border: 1px solid rgba(173, 218, 255, 0.14);
   border-radius: 999px;
-  background: rgba(255, 252, 246, 0.68);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   font-size: 0.84rem;
-  color: rgba(46, 34, 24, 0.82);
+  color: rgba(242, 245, 247, 0.88);
 }
 
 .gallery-section {
@@ -187,7 +187,7 @@ img {
   position: absolute;
   inset: auto 0 0;
   height: 36%;
-  background: linear-gradient(180deg, transparent, rgba(58, 36, 18, 0.34));
+  background: linear-gradient(180deg, transparent, rgba(5, 12, 22, 0.4));
   opacity: 0;
   transition: opacity 180ms ease;
 }
@@ -200,7 +200,7 @@ img {
 .gallery-card img {
   width: 100%;
   height: auto;
-  background: linear-gradient(180deg, rgba(255, 248, 238, 0.98), rgba(240, 220, 194, 0.9));
+  background: linear-gradient(180deg, rgba(15, 31, 54, 0.98), rgba(11, 24, 42, 0.92));
   transition: transform 280ms ease, filter 280ms ease;
 }
 
@@ -211,7 +211,7 @@ img {
 }
 
 .gallery-card:focus-visible {
-  outline: 2px solid rgba(191, 90, 54, 0.85);
+  outline: 2px solid rgba(119, 213, 255, 0.9);
   outline-offset: 3px;
 }
 
@@ -221,12 +221,12 @@ img {
   z-index: 1;
   padding: 7px 10px;
   border-radius: 999px;
-  background: rgba(255, 248, 238, 0.86);
-  border: 1px solid rgba(107, 67, 34, 0.1);
+  background: rgba(8, 18, 32, 0.82);
+  border: 1px solid rgba(173, 218, 255, 0.14);
   backdrop-filter: blur(10px);
   font-size: 0.75rem;
   font-weight: 800;
-  color: #6f3418;
+  color: #d7f0ff;
 }
 
 .lightbox {
@@ -237,11 +237,11 @@ img {
   margin: 0;
   padding: 0;
   border: 0;
-  background: rgba(30, 20, 13, 0.88);
+  background: rgba(2, 7, 14, 0.9);
 }
 
 .lightbox::backdrop {
-  background: rgba(30, 20, 13, 0.82);
+  background: rgba(2, 7, 14, 0.84);
   backdrop-filter: blur(12px);
 }
 
@@ -274,7 +274,7 @@ img {
 
 #lightboxCaption {
   padding: 0 18px;
-  color: rgba(255, 244, 233, 0.82);
+  color: rgba(242, 245, 247, 0.82);
   text-align: center;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -287,8 +287,8 @@ img {
   place-items: center;
   border: 0;
   cursor: pointer;
-  color: #fff7ee;
-  background: rgba(255, 246, 236, 0.14);
+  color: #f8fbff;
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(14px);
   transition: transform 160ms ease, background 160ms ease;
 }
@@ -298,7 +298,7 @@ img {
 .icon-button:focus-visible,
 .nav-button:focus-visible {
   transform: scale(1.03);
-  background: rgba(255, 246, 236, 0.24);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .close-button {
