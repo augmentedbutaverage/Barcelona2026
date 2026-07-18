@@ -1,4 +1,4 @@
-const assetVersion = "20260718-6";
+const assetVersion = "20260718-7";
 
 const photos = [
   { file: "photo-01.jpg", width: 640, height: 540 },
@@ -18,6 +18,14 @@ const photos = [
   { file: "photo-15.jpg", width: 640, height: 480 },
   { file: "photo-16.jpg", width: 640, height: 854 },
   { file: "photo-17.jpg", width: 640, height: 854 },
+  { file: "photo-18.jpg", width: 640, height: 893 },
+  { file: "photo-19.jpg", width: 640, height: 500 },
+  { file: "photo-20.jpg", width: 640, height: 480 },
+  { file: "photo-21.jpg", width: 640, height: 439 },
+  { file: "photo-22.jpg", width: 640, height: 578 },
+  { file: "photo-23.jpg", width: 640, height: 479 },
+  { file: "photo-24.jpg", width: 640, height: 371 },
+  { file: "photo-25.jpg", width: 640, height: 599 },
 ];
 
 const gallery = document.getElementById("gallery");
@@ -28,9 +36,21 @@ const prevButton = document.getElementById("prevButton");
 const nextButton = document.getElementById("nextButton");
 
 let activeIndex = 0;
+const galleryPhotos = shufflePhotos(photos);
+
+function shufflePhotos(items) {
+  const shuffled = [...items];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
 
 function renderGallery() {
-  const markup = photos
+  const markup = galleryPhotos
     .map((photo, index) => {
       const displayIndex = String(index + 1).padStart(2, "0");
       const imagePath = `assets/images/thumb/${photo.file}?v=${assetVersion}`;
@@ -61,13 +81,13 @@ function renderGallery() {
 }
 
 function updateLightbox(index) {
-  activeIndex = (index + photos.length) % photos.length;
+  activeIndex = (index + galleryPhotos.length) % galleryPhotos.length;
   const displayIndex = String(activeIndex + 1).padStart(2, "0");
-  const photo = photos[activeIndex];
+  const photo = galleryPhotos[activeIndex];
   lightboxImage.src = `assets/images/full/${photo.file}?v=${assetVersion}`;
   lightboxImage.alt = `Barcelona travel photo ${displayIndex}`;
   lightboxCaption.textContent = `Barcelona 2026 · ${displayIndex} / ${String(
-    photos.length
+    galleryPhotos.length
   ).padStart(2, "0")}`;
 }
 
