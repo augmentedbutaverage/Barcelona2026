@@ -1,4 +1,4 @@
-const assetVersion = "20260719-1";
+const assetVersion = "20260719-2";
 
 const photos = [
   { file: "photo-01.jpg", width: 640, height: 540 },
@@ -30,7 +30,8 @@ const photos = [
 
 const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
+let activeLightboxImage = document.getElementById("lightboxImage");
+let incomingLightboxImage = document.getElementById("lightboxImageIncoming");
 const lightboxCaption = document.getElementById("lightboxCaption");
 const prevButton = document.getElementById("prevButton");
 const nextButton = document.getElementById("nextButton");
@@ -42,6 +43,7 @@ const swipeState = {
   startY: 0,
   tracking: false,
 };
+let isAnimatingLightbox = false;
 
 function shufflePhotos(items) {
   const shuffled = [...items];
@@ -85,15 +87,88 @@ function renderGallery() {
   gallery.innerHTML = markup;
 }
 
-function updateLightbox(index) {
-  activeIndex = (index + galleryPhotos.length) % galleryPhotos.length;
-  const displayIndex = String(activeIndex + 1).padStart(2, "0");
-  const photo = galleryPhotos[activeIndex];
-  lightboxImage.src = `assets/images/full/${photo.file}?v=${assetVersion}`;
-  lightboxImage.alt = `Barcelona travel photo ${displayIndex}`;
+function setLightboxImage(imageElement, index) {
+  const displayIndex = String(index + 1).padStart(2, "0");
+  const photo = galleryPhotos[index];
+  imageElement.src = `assets/images/full/${photo.file}?v=${assetVersion}`;
+  imageElement.alt = `Barcelona travel photo ${displayIndex}`;
+}
+
+function setLightboxCaption(index) {
+  const displayIndex = String(index + 1).padStart(2, "0");
   lightboxCaption.textContent = `Barcelona 2026 · ${displayIndex} / ${String(
     galleryPhotos.length
   ).padStart(2, "0")}`;
+}
+
+function finishLightboxSlide(nextIndex) {
+  const previousImage = activeLightboxImage;
+
+  previousImage.className = "lightbox-slide-image is-hidden";
+  previousImage.removeAttribute("src");
+  previousImage.alt = "";
+
+  incomingLightboxImage.className = "lightbox-slide-image is-active";
+
+  activeLightboxImage = incomingLightboxImage;
+  incomingLightboxImage = previousImage;
+  activeIndex = nextIndex;
+  setLightboxCaption(activeIndex);
+  isAnimatingLightbox = false;
+}
+
+function animateLightboxTo(index, direction) {
+  if (isAnimatingLightbox) {
+    return;
+  }
+
+  const nextIndex = (index + galleryPhotos.length) % galleryPhotos.length;
+
+  if (!activeLightboxImage.getAttribute("src")) {
+    activeIndex = nextIndex;
+    setLightboxImage(activeLightboxImage, activeIndex);
+    setLightboxCaption(activeIndex);
+    return;
+  }
+
+  isAnimatingLightbox = true;
+  setLightboxImage(incomingLightboxImage, nextIndex);
+  incomingLightboxImage.className = `lightbox-slide-image is-preparing from-${direction}`;
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      activeLightboxImage.className = `lightbox-slide-image is-exiting to-${direction}`;
+      incomingLightboxImage.className = "lightbox-slide-image is-active";
+    });
+  });
+
+  const handleTransitionEnd = (event) => {
+    if (event.target !== incomingLightboxImage || event.propertyName !== "transform") {
+      return;
+    }
+
+    incomingLightboxImage.removeEventListener("transitionend", handleTransitionEnd);
+    finishLightboxSlide(nextIndex);
+  };
+
+  incomingLightboxImage.addEventListener("transitionend", handleTransitionEnd);
+}
+
+function updateLightbox(index, options = {}) {
+  const nextIndex = (index + galleryPhotos.length) % galleryPhotos.length;
+
+  if (options.animate) {
+    animateLightboxTo(nextIndex, options.direction);
+    return;
+  }
+
+  activeIndex = nextIndex;
+  setLightboxImage(activeLightboxImage, activeIndex);
+  activeLightboxImage.className = "lightbox-slide-image is-active";
+  incomingLightboxImage.className = "lightbox-slide-image is-hidden";
+  incomingLightboxImage.removeAttribute("src");
+  incomingLightboxImage.alt = "";
+  setLightboxCaption(activeIndex);
 }
 
 function openLightbox(index) {
@@ -113,11 +188,11 @@ function handleSwipe(deltaX) {
   }
 
   if (deltaX < 0) {
-    updateLightbox(activeIndex + 1);
+    updateLightbox(activeIndex + 1, { animate: true, direction: "left" });
     return;
   }
 
-  updateLightbox(activeIndex - 1);
+  updateLightbox(activeIndex - 1, { animate: true, direction: "right" });
 }
 
 gallery.addEventListener("click", (event) => {
@@ -140,11 +215,11 @@ gallery.addEventListener("keydown", (event) => {
 });
 
 prevButton.addEventListener("click", () => {
-  updateLightbox(activeIndex - 1);
+  updateLightbox(activeIndex - 1, { animate: true, direction: "right" });
 });
 
 nextButton.addEventListener("click", () => {
-  updateLightbox(activeIndex + 1);
+  updateLightbox(activeIndex + 1, { animate: true, direction: "left" });
 });
 
 lightbox.addEventListener("click", (event) => {
@@ -201,11 +276,11 @@ document.addEventListener("keydown", (event) => {
   }
 
   if (event.key === "ArrowLeft") {
-    updateLightbox(activeIndex - 1);
+    updateLightbox(activeIndex - 1, { animate: true, direction: "right" });
   }
 
   if (event.key === "ArrowRight") {
-    updateLightbox(activeIndex + 1);
+    updateLightbox(activeIndex + 1, { animate: true, direction: "left" });
   }
 });
 
