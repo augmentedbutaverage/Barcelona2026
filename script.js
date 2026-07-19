@@ -1,4 +1,4 @@
-const assetVersion = "20260718-7";
+const assetVersion = "20260719-1";
 
 const photos = [
   { file: "photo-01.jpg", width: 640, height: 540 },
@@ -37,6 +37,11 @@ const nextButton = document.getElementById("nextButton");
 
 let activeIndex = 0;
 const galleryPhotos = shufflePhotos(photos);
+const swipeState = {
+  startX: 0,
+  startY: 0,
+  tracking: false,
+};
 
 function shufflePhotos(items) {
   const shuffled = [...items];
@@ -102,6 +107,19 @@ function closeLightbox() {
   lightbox.close();
 }
 
+function handleSwipe(deltaX) {
+  if (Math.abs(deltaX) < 48) {
+    return;
+  }
+
+  if (deltaX < 0) {
+    updateLightbox(activeIndex + 1);
+    return;
+  }
+
+  updateLightbox(activeIndex - 1);
+}
+
 gallery.addEventListener("click", (event) => {
   const button = event.target.closest(".gallery-card");
   if (!button) {
@@ -134,6 +152,44 @@ lightbox.addEventListener("click", (event) => {
     closeLightbox();
   }
 });
+
+lightbox.addEventListener(
+  "touchstart",
+  (event) => {
+    if (!lightbox.open || event.touches.length !== 1) {
+      swipeState.tracking = false;
+      return;
+    }
+
+    const touch = event.touches[0];
+    swipeState.startX = touch.clientX;
+    swipeState.startY = touch.clientY;
+    swipeState.tracking = true;
+  },
+  { passive: true }
+);
+
+lightbox.addEventListener(
+  "touchend",
+  (event) => {
+    if (!swipeState.tracking || event.changedTouches.length !== 1) {
+      swipeState.tracking = false;
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - swipeState.startX;
+    const deltaY = touch.clientY - swipeState.startY;
+    swipeState.tracking = false;
+
+    if (Math.abs(deltaX) <= Math.abs(deltaY) || Math.abs(deltaY) > 72) {
+      return;
+    }
+
+    handleSwipe(deltaX);
+  },
+  { passive: true }
+);
 
 document.addEventListener("keydown", (event) => {
   if (!lightbox.open) {
